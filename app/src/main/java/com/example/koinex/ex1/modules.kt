@@ -4,18 +4,19 @@ import com.example.koinex.ex2.AppPreferences
 import com.example.koinex.ex2.AppPreferences2
 import com.example.koinex.ex3.Car
 import com.example.koinex.ex3.DefaultEngine
-import com.example.koinex.ex3.Engine
+import com.example.koinex.ex4.ConfigRepo
+import com.example.koinex.ex4.ConfigRepoImpl
+import com.example.koinex.ex4.HTTPClient
 import com.example.koinex.simple.HelloMessageData
 import com.example.koinex.simple.HelloServiceImpl
-import com.example.koinex.viewmodel_ex.HelloRepository
-import com.example.koinex.viewmodel_ex.HelloRepositoryImpl
-import com.example.koinex.viewmodel_ex.MyViewModel
+import com.example.koinex.viewmodel_ex.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-//Ex 1, viemmodelEx
+//Ex 1, viemmodelEx, Ex4
 val appModule = module {
     single { SchoolCourse() }
     factory { Friend() }
@@ -26,6 +27,16 @@ val appModule = module {
 
     single<HelloRepository> { HelloRepositoryImpl() }
     viewModel { MyViewModel(get()) }
+    factory<GameRepository> { GameRepositoryImpl() }
+    viewModel { GameScreenViewModel(get()) }
+
+    single<ConfigRepo> { ConfigRepoImpl() }
+    //1-in tarberak
+    //single { HTTPClient(ConfigRepoImpl().serverUrl) }
+    // 2-rd tarberak - properties
+    single { (named("serverUrl")) }
+    single { HTTPClient(getProperty("serverUrl")) }
+
 }
 
 //Ex2
@@ -37,7 +48,7 @@ val applicationModule = module {
 
 //Ex3
 val carModule = module {
-    factory { DefaultEngine() as Engine }
+    factory { DefaultEngine() }
     factory { Car(get()) }
 }
 

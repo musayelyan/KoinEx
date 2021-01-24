@@ -7,9 +7,12 @@ import com.example.koinex.ex2.AppPreferences
 import com.example.koinex.ex2.AppPreferences.Companion.PROFILE_NAME
 import com.example.koinex.ex2.AppPreferences2
 import com.example.koinex.ex3.Car
+import com.example.koinex.ex4.HTTPClient
 import com.example.koinex.simple.HelloServiceImpl
+import com.example.koinex.viewmodel_ex.GameScreenViewModel
 import com.example.koinex.viewmodel_ex.MyViewModel
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private val helloServiceImpl: HelloServiceImpl by inject()
 
     private val myViewModel: MyViewModel by viewModel()
+    private val gameScreenViewModel: GameScreenViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +43,15 @@ class MainActivity : AppCompatActivity() {
         val car = get<Car>()
         car.carWork()
 
+        //view model example
         //val helloServiceImpl: HelloServiceImpl = get<>()
         println(helloServiceImpl.sayHello())
-
         println(myViewModel.sayHello())
+        println(gameScreenViewModel.getGames())
+
+        // Example 4
+        getKoin().setProperty("serverUrl", "www.vivarobet.am")
+        val httpClient = get<HTTPClient>()
+        httpClient.doCall()
     }
 }
