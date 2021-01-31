@@ -1,12 +1,8 @@
 package com.example.koinex
 
 import android.app.Application
-import com.example.koinex.ex1.appModule
-import com.example.koinex.ex1.applicationModule
-import com.example.koinex.ex1.carModule
-import com.example.koinex.ex1.helloModule
+import com.example.koinex.ex1.*
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class MyApp : Application() {
@@ -15,7 +11,7 @@ class MyApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MyApp)
-            modules(listOf(appModule, applicationModule, carModule, helloModule))
+            modules(listOf(appModule, applicationModule, carModule, helloModule, zvExampleModuls))
         }
     }
 }

@@ -6,16 +6,16 @@ import com.example.koinex.ex1.Student
 import com.example.koinex.ex2.AppPreferences
 import com.example.koinex.ex2.AppPreferences.Companion.PROFILE_NAME
 import com.example.koinex.ex2.AppPreferences2
-import com.example.koinex.ex3.Car
 import com.example.koinex.ex4.HTTPClient
 import com.example.koinex.simple.HelloServiceImpl
 import com.example.koinex.viewmodel_ex.GameScreenViewModel
 import com.example.koinex.viewmodel_ex.MyViewModel
+import com.example.koinex.zvExample.Car
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinApiExtension
+import org.koin.java.KoinJavaComponent.getKoin
 
 @KoinApiExtension
 class MainActivity : AppCompatActivity() {
@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         preferences2.saveProfileName("Musayelyan")
         println(preferences2.getProfileName(PROFILE_NAME))
 
-        val car = get<Car>()
-        car.carWork()
+//        val car = get<Car>()
+//        car.carWork()
 
         //view model example
         //val helloServiceImpl: HelloServiceImpl = get<>()
@@ -50,8 +50,12 @@ class MainActivity : AppCompatActivity() {
         println(gameScreenViewModel.getGames())
 
         // Example 4
-        getKoin().setProperty("serverUrl", "www.vivarobet.am")
+        getKoin().setProperty("server_url", "www.vivarobet.am")
         val httpClient = get<HTTPClient>()
         httpClient.doCall()
+
+        //ZvExample
+        val car2 = get<Car>()
+        car2.run()
     }
 }

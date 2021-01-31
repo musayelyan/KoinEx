@@ -4,16 +4,18 @@ import com.example.koinex.ex2.AppPreferences
 import com.example.koinex.ex2.AppPreferences2
 import com.example.koinex.ex3.Car
 import com.example.koinex.ex3.DefaultEngine
+import com.example.koinex.ex3.Engine
 import com.example.koinex.ex4.ConfigRepo
 import com.example.koinex.ex4.ConfigRepoImpl
 import com.example.koinex.ex4.HTTPClient
 import com.example.koinex.simple.HelloMessageData
 import com.example.koinex.simple.HelloServiceImpl
 import com.example.koinex.viewmodel_ex.*
+import com.example.koinex.zvExample.BMWEngine
+import com.example.koinex.zvExample.MercEngine
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 //Ex 1, viemmodelEx, Ex4
@@ -30,12 +32,11 @@ val appModule = module {
     factory<GameRepository> { GameRepositoryImpl() }
     viewModel { GameScreenViewModel(get()) }
 
-    single<ConfigRepo> { ConfigRepoImpl() }
     //1-in tarberak
+    single<ConfigRepo> { ConfigRepoImpl() }
     //single { HTTPClient(ConfigRepoImpl().serverUrl) }
     // 2-rd tarberak - properties
-    single { (named("serverUrl")) }
-    single { HTTPClient(getProperty("serverUrl")) }
+    single { HTTPClient(getProperty("server_url")) }
 
 }
 
@@ -48,7 +49,7 @@ val applicationModule = module {
 
 //Ex3
 val carModule = module {
-    factory { DefaultEngine() }
+    factory<Engine> { DefaultEngine() }
     factory { Car(get()) }
 }
 
@@ -56,5 +57,14 @@ val carModule = module {
 val helloModule = module {
     factory { HelloMessageData() }
     factory { HelloServiceImpl(get()) }
+}
+
+val zvExampleModuls = module {
+//    factory<com.example.koinex.zvExample.Engine> { MercEngine() }
+//    factory<com.example.koinex.zvExample.Engine> { BMWEngine() }
+    factory<com.example.koinex.zvExample.Engine> { BMWEngine() }
+    factory<com.example.koinex.zvExample.Engine>(override = true) { MercEngine() }
+
+    factory { com.example.koinex.zvExample.Car(get()) }
 }
 
